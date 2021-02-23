@@ -1,4 +1,4 @@
-// Algebraic curve.cpp: определяет точку входа для консольного приложения.
+п»ї// Algebraic curve.cpp: РѕРїСЂРµРґРµР»СЏРµС‚ С‚РѕС‡РєСѓ РІС…РѕРґР° РґР»СЏ РєРѕРЅСЃРѕР»СЊРЅРѕРіРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ.
 //
 
 #include "stdafx.h"
@@ -7,10 +7,12 @@
 #include <locale.h>
 
 #include "Curve_second_order.h"
+#include "parabola.h"
+#include "Eleps.h"
 
 using namespace std;
 template <typename T>
-T input_meaning(T in)// запрос значения
+T input_meaning(T in)// Р·Р°РїСЂРѕСЃ Р·РЅР°С‡РµРЅРёСЏ
 { 
 	T choice;
 	while (!(std::cin >> choice) || (std::cin.peek() != '\n'))
@@ -22,12 +24,12 @@ T input_meaning(T in)// запрос значения
 	return choice;
 }
 
-set_coord input_points_plot()// запрос новых точек
+set_coord input_points_plot()// Р·Р°РїСЂРѕСЃ РЅРѕРІС‹С… С‚РѕС‡РµРє
 {
 	set_coord points_plot;
 	for (int i = 0; i < COORDINATE_MAXCOUNT; i++)
 	{
-		std::cout << "Введите х" << i + 1 << std::endl;
+		std::cout << "Р’РІРµРґРёС‚Рµ С…" << i + 1 << std::endl;
 
 		while (!(std::cin >> points_plot.coord[i].x) || (std::cin.peek() != '\n'))
 		{
@@ -36,7 +38,7 @@ set_coord input_points_plot()// запрос новых точек
 			std::cout << "Input error! Repeat please...\n";
 		}
 
-		std::cout << std::endl << "Введите y" << i + 1 << std::endl;
+		std::cout << std::endl << "Р’РІРµРґРёС‚Рµ y" << i + 1 << std::endl;
 
 		while (!(std::cin >> points_plot.coord[i].y) || (std::cin.peek() != '\n'))
 		{
@@ -53,13 +55,13 @@ int main()
 {
 	setlocale(LC_ALL, "Russian");
 	set_coord input_points;
-	cout << "Выберете 3 точки для построения параболы" << endl;
+	cout << "Р’С‹Р±РµСЂРµС‚Рµ 3 С‚РѕС‡РєРё РґР»СЏ РїРѕСЃС‚СЂРѕРµРЅРёСЏ РїР°СЂР°Р±РѕР»С‹" << endl;
 	input_points = input_points_plot();
 	Parabola parab(input_points);
-	cout << "Выберете 3 точки для построения эллипса" << endl;
+	cout << "Р’С‹Р±РµСЂРµС‚Рµ 3 С‚РѕС‡РєРё РґР»СЏ РїРѕСЃС‚СЂРѕРµРЅРёСЏ СЌР»Р»РёРїСЃР°" << endl;
 	input_points = input_points_plot();
 	Eleps eleps(input_points);
-	cout << "Выберете 3 точки для построения круга" << endl;
+	cout << "Р’С‹Р±РµСЂРµС‚Рµ 3 С‚РѕС‡РєРё РґР»СЏ РїРѕСЃС‚СЂРѕРµРЅРёСЏ РєСЂСѓРіР°" << endl;
 	input_points = input_points_plot();
 	Circle circle(input_points);
 	Curve_second_order *Curve[] = { &parab ,&eleps, &circle };
@@ -69,25 +71,29 @@ int main()
 
 	unsigned int method = 0;
 	int i = 0;
-	while (i != -1)
+	while (true)
 	{
 		
 		do
 		{
-			cout << "Выберете кривую" << endl;
-			cout << "1-парабола" << endl << "2-эллипс" << endl << "3-круг" << endl << "0-выход" << endl;
+			cout << "Р’С‹Р±РµСЂРµС‚Рµ РєСЂРёРІСѓСЋ" << endl;
+			cout << "1-РїР°СЂР°Р±РѕР»Р°" << endl << "2-СЌР»Р»РёРїСЃ" << endl << "3-РєСЂСѓРі" << endl << "0-РІС‹С…РѕРґ" << endl;
 			i = input_meaning(i) - 1;
+			if (i == -1)
+				return 0;
 		} while (i > 2 || i < -1);
 
-		cout << "Выберите метод" << endl;
-		cout << "1-вычисление координат точки на кривой по заданному параметру;" << endl << "2-вычисление касательного вектора к кривой по заданному параметру" << endl << "3-выдача информации, является ли данная кривая замкнутой" << endl;
-
+		cout << "Р’С‹Р±РµСЂРёС‚Рµ РјРµС‚РѕРґ" << endl;
+		cout << "1-РІС‹С‡РёСЃР»РµРЅРёРµ РєРѕРѕСЂРґРёРЅР°С‚ С‚РѕС‡РєРё РЅР° РєСЂРёРІРѕР№ РїРѕ Р·Р°РґР°РЅРЅРѕРјСѓ РїР°СЂР°РјРµС‚СЂСѓ;" << endl 
+			<< "2-РІС‹С‡РёСЃР»РµРЅРёРµ РєР°СЃР°С‚РµР»СЊРЅРѕРіРѕ РІРµРєС‚РѕСЂР° Рє РєСЂРёРІРѕР№ РїРѕ Р·Р°РґР°РЅРЅРѕРјСѓ РїР°СЂР°РјРµС‚СЂСѓ" << endl 
+			<< "3-РІС‹РґР°С‡Р° РёРЅС„РѕСЂРјР°С†РёРё, СЏРІР»СЏРµС‚СЃСЏ Р»Рё РґР°РЅРЅР°СЏ РєСЂРёРІР°СЏ Р·Р°РјРєРЅСѓС‚РѕР№" << endl;
 		method = input_meaning(method);
+
 		float param = 0;
 		switch (method)
 		{
 		case(1): {
-			cout << "Введите параметр" << endl;
+			cout << "Р’РІРµРґРёС‚Рµ РїР°СЂР°РјРµС‚СЂ" << endl;
 			param = input_meaning(param);
 			out_coord = Curve[i]->calc_coord(param);
 			cout << "x = " << out_coord.x << "; y  = " << out_coord.y << endl;
@@ -95,7 +101,7 @@ int main()
 		}
 		case(2):
 		{
-			cout << "Введите параметр" << endl;
+			cout << "Р’РІРµРґРёС‚Рµ РїР°СЂР°РјРµС‚СЂ" << endl;
 			param = input_meaning(param);
 			out_set = Curve[i]->calc_tangent_vector(param);
 			cout <<"x1 = "<< out_set.coord[0].x << " : y1 = " << out_set.coord[0].y << endl <<"x2 = "<< out_set.coord[1].x << " : y2 =" << out_set.coord[1].y << endl;
@@ -103,9 +109,9 @@ int main()
 		}
 		case(3): {
 			if (Curve[i]->closure_curve())
-				cout << "Замкнута" << endl;
+				cout << "Р—Р°РјРєРЅСѓС‚Р°" << endl;
 			else
-				cout << "Не замкнута"<<endl;
+				cout << "РќРµ Р·Р°РјРєРЅСѓС‚Р°"<<endl;
 			break;
 		}
 		default:
